@@ -1,8 +1,13 @@
 import pandas as pd;
-from pandas import DataFrame, read_csv;
+from tkinter import Tk
+from tkinter.filedialog import askopenfilename
+
+Tk().withdraw() # we don't want a full GUI, so keep the root window from appearing
+file = askopenfilename() # show an "Open" dialog box and return the path to the selected file
+print(file)
 
 catlist = ['grading', 'knowledge', 'presentation', 'counselling', 'punctuality', 'favoritism']
-file = r'5-22-42-29.csv'
+##file = r'5-22-42-29.csv'
 
 with open(file, 'r', encoding="utf8") as f:
     lines = f.readlines()
@@ -39,11 +44,9 @@ for l in lines[1:]:
     else:
         attrib[ind][catIndex] = 'negative'
 
-for i in attrib:
-    print(i)
-
-print(index)
 
 df = pd.DataFrame(attrib, columns=catlist, index=index)
-export_csv = df.to_csv(r'formatted.csv')
+file = file[:len(file)-4]
+file = file + '-formatted.csv'
+export_csv = df.to_csv(file)
 print(df)
